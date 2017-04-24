@@ -34,7 +34,7 @@ python package_ima_hook() {
 
         pkgdestpkg = os.path.join(pkgdest, pkg)
 
-        cmd = 'evmctl ima_sign --rsa --hashalgo sha256 --sigfile --key ${IMA_KEYS_DIR}/ima_privkey.pem '
+        cmd = 'evmctl ima_sign --rsa --hashalgo sha256 -n --sigfile --key ${IMA_KEYS_DIR}/ima_privkey.pem '
         sig_list = []
         pkg_sig_list = []
 
@@ -51,7 +51,7 @@ python package_ima_hook() {
 
             sh_name = pipes.quote(_)
             print("Signing command: %s" % cmd + sh_name)
-            rc, res = oe.utils.getstatusoutput(cmd + sh_name)
+            rc, res = oe.utils.getstatusoutput(cmd + sh_name + " >/dev/null")
             if rc:
                 bb.fatal('Calculate IMA signature for %s failed with exit code %s:\n%s' % \
                     (_, rc, res if res else ""))
