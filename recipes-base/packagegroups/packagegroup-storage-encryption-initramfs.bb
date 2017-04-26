@@ -7,5 +7,5 @@ include packagegroup-storage-encryption.inc
 DESCRIPTION = "The storage-encryption packages for initramfs."
 
 RDEPENDS_${PN} += " \
-    cryptfs-tpm2-initramfs-script \
+    cryptfs-tpm2-initramfs \
 "
