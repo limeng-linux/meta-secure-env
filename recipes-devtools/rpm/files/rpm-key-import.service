@@ -1,7 +1,6 @@
 [Unit]
 Description=RPM key import service
 After=local-fs.target
-Before=sysinit.target
 ConditionPathExistsGlob=/etc/pki/rpm-gpg/RPM-GPG-KEY-*
 
 [Service]
