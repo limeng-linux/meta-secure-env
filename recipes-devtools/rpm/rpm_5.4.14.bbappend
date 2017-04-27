@@ -191,7 +191,7 @@ RPM_SELF_SIGN_ALGO ?= "DSA"
 # Algorithm for gpg digest during rpm siging
 RPM_GPG_DIGEST_ALGO ?= "sha1"
 
-do_install_append() {
+do_install_append_class-target() {
 	# Configure -distribution wide- package crypto settings
 	# If these change, effectively all packages have to be upgraded!
 	sed -i -e 's,%_build_file_digest_algo.*,%_build_file_digest_algo ${RPM_FILE_DIGEST_ALGO},' ${D}/${libdir}/rpm/macros.rpmbuild
