@@ -13,7 +13,3 @@
 [submodule "meta-rpm-signing"]
 	path = meta-rpm-signing
 	url = https://github.com/jiazhang0/meta-rpm-signing.git
-[submodule "meta-measured"]
-	path = meta-measured
-	url = https://github.com/WindRiver-OpenSourceLabs/meta-measured.git
-	branch = pulsar-8
