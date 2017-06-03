@@ -13,3 +13,9 @@
 [submodule "meta-rpm-signing"]
 	path = meta-rpm-signing
 	url = https://github.com/jiazhang0/meta-rpm-signing.git
+[submodule "meta-tpm2"]
+	path = meta-tpm2
+	url = https://github.com/jiazhang0/meta-tpm2.git
+[submodule "meta-tpm"]
+	path = meta-tpm
+	url = https://github.com/jiazhang0/meta-tpm.git
