@@ -80,7 +80,7 @@ provides some protection against offline tampering of the files.
 
 Refer to meta-integrity/README.md for more details.
 
-### RPM signing
+#### RPM signing
 This feature provides the integrity verification for the RPM5 package.
 
 Refer to meta-rpm-signing/README.md for more details.
