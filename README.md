@@ -9,7 +9,7 @@ key. Whenever this feature is enabled, the bootloader and kernel will be
 signed automatically during the build, implying the signed binaries are
 contained by the resulting RPM and rootfs image.
 
-Refer to meta-efi-secure-boot/README.md for more details.
+Refer to [meta-efi-secure-boot](https://github.com/jiazhang0/meta-efi-secure-boot/blob/master/README.md) for more details.
 
 #### MOK Secure Boot
 For x86 platform, MOK secure boot is based on the UEFI secure boot, adding
@@ -17,7 +17,7 @@ the shim loader to chainloader the second-stage bootloader. Meanwhile,
 the shim will also install a protocol which permits the second-stage bootloader
 to perform similar binary validation, e.g, for linux kernel.
 
-Refer to meta-efi-secure-boot/README.md for more details.
+Refer to [meta-efi-secure-boot](https://github.com/jiazhang0/meta-efi-secure-boot/blob/master/README.md) for more details.
 
 #### User key store
 By default, the signing key used by UEFI/MOK secure boot is the sample key for
@@ -25,14 +25,15 @@ the purposes of development and demonstration. It is not recommended that
 this sample key be used for a production device and should be replaced by
 a secret key owned by the user. 
 
-Refer to meta-signing-key/README.md for more details about how to construct an
-user key store.
+Refer to [meta-signing-key](https://github.com/jiazhang0/meta-signing-key/blob/master/README.md)
+for more details about how to construct an user key store.
 
 #### TPM 1.x
 This feature enables Trusted Platform Module 1.x support, including
 kernel option changes to enable tpm drivers, and picking up TPM 1.x packages.
 
-Refer to meta-tpm/README.md for more details.
+Refer to [meta-tpm](https://github.com/jiazhang0/meta-tpm/blob/master/README.md)
+for more details.
 
 #### TPM 2.0
 This feature enables Trusted Platform Module 2.0 support, including
@@ -42,7 +43,8 @@ Trusted Platform Module (TPM 2.0) is a microcontroller that stores keys,
 passwords, and digital certificates. A discrete TPM 2.0 offers the
 capabilities as part of the overall platform security requirements.
 
-Refer to meta-tpm2/README.md for more details.
+Refer to [meta-tpm2](https://github.com/jiazhang0/meta-tpm2/blob/master/README.md)
+for more details.
 
 #### Encrypted storage
 This feature gives 2 types of granularity for storage encryption. Data volume
@@ -55,7 +57,7 @@ which provides transparent encryption of block devices using the kernel crypto
 API. Additionally, the utility cryptsetup is used to conveniently setup disk
 encryption based on device-mapper crypt target.
 
-Refer to meta-encrypted-storage/README.md for more details.
+Refer to [meta-encrypted-storage](https://github.com/jiazhang0/meta-encrypted-storage/blob/master/README.md) for more details.
 
 #### Integrity
 The Linux IMA subsystem introduces hooks within the Linux kernel to support
@@ -78,16 +80,18 @@ files and applications to be loaded if the hashes match (and will save the
 updated hash if the file is modified) but refuse to load it if it doesn't. This
 provides some protection against offline tampering of the files.
 
-Refer to meta-integrity/README.md for more details.
+Refer to [meta-integrity](https://github.com/jiazhang0/meta-efi-secure-boot/blob/master/README.md)
+for more details.
 
 #### RPM signing
 This feature provides the integrity verification for the RPM5 package.
 
-Refer to meta-rpm-signing/README.md for more details.
+Refer to [meta-rpm-signing](https://github.com/jiazhang0/meta-rpm-signing/blob/master/README.md)
+for more details.
 
 ### Maintenance
 This layer is maintained in Wind River Open Source Labs at github.
-- source  
+- source code  
   https://github.com/WindRiver-OpenSourceLabs/meta-secure-env
 
 ### Building the meta-secure-env layer
