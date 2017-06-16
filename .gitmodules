@@ -19,3 +19,6 @@
 [submodule "meta-tpm"]
 	path = meta-tpm
 	url = https://github.com/jiazhang0/meta-tpm.git
+[submodule "meta-exploitation"]
+	path = meta-exploitation
+	url = https://jiazhang0@github.com/jiazhang0/meta-exploitation.git
