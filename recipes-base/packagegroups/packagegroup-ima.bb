@@ -13,6 +13,7 @@ DEPENDS += " \
 
 RDEPENDS_${PN} += " \
     attr \
+    bash-static \
     util-linux-switch_root.static \
     attr-setfattr.static \
     ima-evm-utils-evmctl.static \

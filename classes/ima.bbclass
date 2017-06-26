@@ -72,16 +72,21 @@ python package_ima_hook() {
         # We don't want to create a statically linked echo program
         # any more.
         safe_echo = '1'
+        # By default, use bash to launch %post, unless bash is being
+        # updated.
+        safe_shell = 'bash'
         if pkg == 'attr-setfattr.static':
             setfattr_bin = 'setfattr'
         elif pkg == 'ima-evm-utils-evmctl.static':
             evmctl_bin = 'evmctil'
         elif pkg == 'coreutils':
             safe_echo = '0'
+        elif pkg in ('bash', 'glibc-binaries', 'ncurses'):
+            safe_shell = 'bash.static'
 
         # The %post is dynamically constructed according to the currently
         # installed package and enviroment.
-        postinst = r'''#!/bin/sh
+        postinst = r'''#!/bin/''' + safe_shell + r'''
 
 # %post hook for IMA appraisal
 ima_resign=0
