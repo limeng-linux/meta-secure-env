@@ -17,6 +17,9 @@ RDEPENDS_${PN} += " \
     util-linux-switch_root.static \
     attr-setfattr.static \
     ima-evm-utils-evmctl.static \
+    coreutils-ln.static \
+    coreutils-echo.static \
+    grep-static \
 "
 
 # Note IMA private key is not available if user key signing model used.

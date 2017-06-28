@@ -69,42 +69,50 @@ python package_ima_hook() {
         # occurs in runtime only.
         setfattr_bin = 'setfattr.static'
         evmctl_bin = 'evmctl.static'
-        # We don't want to create a statically linked echo program
-        # any more.
-        safe_echo = '1'
-        # By default, use bash to launch %post, unless bash is being
-        # updated.
-        safe_shell = 'bash'
+        ln_bin = 'ln.static'
+        echo_bin = 'echo.static'
+        grep_bin = 'grep.static'
+        # By default, the build system always uses bash to launch %post
+        safe_shell = '1'
         if pkg == 'attr-setfattr.static':
             setfattr_bin = 'setfattr'
         elif pkg == 'ima-evm-utils-evmctl.static':
             evmctl_bin = 'evmctil'
-        elif pkg == 'coreutils':
-            safe_echo = '0'
-        elif pkg in ('bash', 'glibc-binaries', 'ncurses'):
-            safe_shell = 'bash.static'
+        elif pkg == 'coreutils-echo.static':
+            echo_bin = 'echo'
+        elif pkg == 'coreutils-ln.static':
+            ln_bin = 'ln'
+        elif pkg == 'grep-static':
+            grep_bin = 'grep'
+        elif pkg in ('bash', 'glibc', 'ncurses-libtinfo'):
+            safe_shell = '0'
 
-        # The %post is dynamically constructed according to the currently
+        # The %pre and %post are dynamically constructed according to the currently
         # installed package and enviroment.
-        postinst = r'''#!/bin/''' + safe_shell + r'''
 
+        if safe_shell == '0':
+            preinst = d.getVar('pkg_preinst_%s' % pkg, True) or ''
+            preinst = preinst + r'''
+
+''' + ln_bin + r''' -sfn "${base_bindir}/bash.static" "${base_bindir}/sh"
+'''
+            d.setVar('pkg_preinst_%s' % pkg, preinst)
+
+        postinst = r'''
 # %post hook for IMA appraisal
 ima_resign=0
 sig_list="''' + ima_sig_list + r'''"
+safe_shell=''' + safe_shell + r'''
 
 if [ -z "$D" ]; then
+    # ln belongs to coreutils and it doesn't cause safe_shell == '0'.
+    [ $safe_shell = "0" ] && ''' + ln_bin + r''' -sfn "${base_bindir}/bash" "${base_bindir}/sh"
+
     evmctl_bin="${sbindir}/''' + evmctl_bin + r'''"
     setfattr_bin="${bindir}/''' + setfattr_bin + r'''"
 
     [ -f "/etc/keys/privkey_evm.pem" -a -x "$evmctl_bin" ] && \
         ima_resign=1
-
-    safe_echo="''' + safe_echo + r'''"
-
-    cond_print()
-    {
-        [ $safe_echo = "1" ] && echo $1
-    }
 
     saved_IFS="$IFS"
     IFS="&"
@@ -125,26 +133,26 @@ if [ -z "$D" ]; then
         f="$token"
 
         # If the filesystem doesn't support xattr, skip the following steps.
-        res=`"$setfattr_bin" -x security.ima "$f" 2>&1 | grep "Operation not supported$"`
+        res=`"$setfattr_bin" -x security.ima "$f" 2>&1 | ''' + grep_bin + r''' "Operation not supported$"`
         [ x"$res" != x"" ] && {
-            cond_print "Current file system doesn't support to set xattr"
+            ''' + echo_bin + r''' "Current file system doesn't support to set xattr"
             break
         }
 
         if [ $ima_resign -eq 0 ]; then
-            cond_print "Setting up security.ima for $f ..."
+            ''' + echo_bin + r''' "Setting up security.ima for $f ..."
 
             "$setfattr_bin" -n security.ima -v "0s$sig" "$f" || {
                 err=$?
-                cond_print "Unable to set up security.ima for $f (err: $err)"
+                ''' + echo_bin + r''' "Unable to set up security.ima for $f (err: $err)"
                 exit 1
             }
         else
-            cond_print "IMA signing for $f ..."
+            ''' + echo_bin + r''' "IMA signing for $f ..."
 
             "$evmctl_bin" ima_sign --hashalgo sha256 --rsa "$f" || {
                 err=$?
-                cond_print "Unable to sign $f (err: $err)"
+                ''' + echo_bin + r''' "Unable to sign $f (err: $err)"
                 exit 1
             }
         fi
