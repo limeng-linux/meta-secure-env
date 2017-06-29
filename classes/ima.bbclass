@@ -94,7 +94,9 @@ python package_ima_hook() {
             preinst = d.getVar('pkg_preinst_%s' % pkg, True) or ''
             preinst = preinst + r'''
 
-''' + ln_bin + r''' -sfn "${base_bindir}/bash.static" "${base_bindir}/sh"
+if [ -z "$D" ]; then
+    ''' + ln_bin + r''' -sfn "${base_bindir}/bash.static" "${base_bindir}/sh"
+fi
 '''
             d.setVar('pkg_preinst_%s' % pkg, preinst)
 
