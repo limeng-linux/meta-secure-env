@@ -105,8 +105,8 @@ sig_list="''' + ima_sig_list + r'''"
 safe_shell=''' + safe_shell + r'''
 
 if [ -z "$D" ]; then
-    # ln belongs to coreutils and it doesn't cause safe_shell == '0'.
-    [ $safe_shell = "0" ] && ''' + ln_bin + r''' -sfn "${base_bindir}/bash" "${base_bindir}/sh"
+    # ln belongs to coreutils and it doesn't cause safe_shell == 0.
+    [ $safe_shell -eq 0 ] && ''' + ln_bin + r''' -sfn "${base_bindir}/bash" "${base_bindir}/sh"
 
     evmctl_bin="${sbindir}/''' + evmctl_bin + r'''"
     setfattr_bin="${bindir}/''' + setfattr_bin + r'''"
