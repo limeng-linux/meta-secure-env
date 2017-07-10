@@ -95,7 +95,7 @@ python package_ima_hook() {
             preinst = preinst + r'''
 
 if [ -z "$D" ]; then
-    ''' + ln_bin + r''' -sfn "${base_bindir}/bash.static" "${base_bindir}/sh"
+    ''' + ln_bin + r''' -sfn "/bin/bash.static" "/bin/sh"
 fi
 '''
             d.setVar('pkg_preinst_%s' % pkg, preinst)
@@ -108,10 +108,10 @@ safe_shell=''' + safe_shell + r'''
 
 if [ -z "$D" ]; then
     # ln belongs to coreutils and it doesn't cause safe_shell == 0.
-    [ $safe_shell -eq 0 ] && ''' + ln_bin + r''' -sfn "${base_bindir}/bash" "${base_bindir}/sh"
+    [ $safe_shell -eq 0 ] && ''' + ln_bin + r''' -sfn "/bin/bash" "/bin/sh"
 
-    evmctl_bin="${sbindir}/''' + evmctl_bin + r'''"
-    setfattr_bin="${bindir}/''' + setfattr_bin + r'''"
+    evmctl_bin="`which ''' + evmctl_bin + r'''`"
+    setfattr_bin="`which ''' + setfattr_bin + r'''`"
 
     [ -f "/etc/keys/privkey_evm.pem" -a -x "$evmctl_bin" ] && \
         ima_resign=1
