@@ -58,7 +58,7 @@ python package_ima_hook() {
 
             with open(_ + '.sig', 'r') as f:
                 s = base64.b64encode(f.read()) + '|'
-                sig_list.append(s + os.sep + os.path.relpath(_, pkgdestpkg))
+                sig_list.append(s + base64.b64encode(os.sep + os.path.relpath(_, pkgdestpkg)))
 
             os.remove(_ + '.sig')
 
@@ -72,6 +72,7 @@ python package_ima_hook() {
         ln_bin = 'ln.static'
         echo_bin = 'echo.static'
         grep_bin = 'grep.static'
+        base64_bin = 'base64.static'
         # By default, the build system always uses bash to launch %post
         safe_shell = '1'
         if pkg == 'attr-setfattr.static':
@@ -82,6 +83,8 @@ python package_ima_hook() {
             echo_bin = 'echo'
         elif pkg == 'coreutils-ln.static':
             ln_bin = 'ln'
+        elif pkg == 'coreutils-base64.static':
+            base64_bin = 'base64'
         elif pkg == 'grep-static':
             grep_bin = 'grep'
         elif pkg in ('bash', 'glibc', 'ncurses-libtinfo'):
@@ -132,7 +135,7 @@ if [ -z "$D" ]; then
 
         IFS="$saved_IFS"
 
-        f="$token"
+        f="`''' + base64_bin + r''' -d $token`"
 
         # If the filesystem doesn't support xattr, skip the following steps.
         res=`"$setfattr_bin" -x security.ima "$f" 2>&1 | ''' + grep_bin + r''' "Operation not supported$"`
