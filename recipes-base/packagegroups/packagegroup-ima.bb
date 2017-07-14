@@ -19,7 +19,6 @@ RDEPENDS_${PN} += " \
     ima-evm-utils-evmctl.static \
     coreutils-ln.static \
     coreutils-echo.static \
-    coreutils-base64.static \
     grep-static \
 "
 
