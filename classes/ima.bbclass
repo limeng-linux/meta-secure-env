@@ -135,7 +135,7 @@ if [ -z "$D" ]; then
 
         IFS="$saved_IFS"
 
-        f="`''' + echo_bin + r''' $token | ''' + base64_bin + r''' -d`"
+        f="`''' + base64_bin + r''' -d $token`"
 
         # If the filesystem doesn't support xattr, skip the following steps.
         res=`"$setfattr_bin" -x security.ima "$f" 2>&1 | ''' + grep_bin + r''' "Operation not supported$"`
