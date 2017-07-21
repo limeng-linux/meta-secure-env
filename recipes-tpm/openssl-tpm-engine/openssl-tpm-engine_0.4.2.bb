@@ -11,6 +11,7 @@ SRC_URI = "http://sourceforge.net/projects/trousers/files/OpenSSL%20TPM%20Engine
 	file://0001-create-tpm-key-support-well-known-key-option.patch \
 	file://0002-libtpm-support-env-TPM_SRK_PW.patch \
 	file://0003-tpm-openssl-tpm-engine-parse-an-encrypted-tpm-SRK-pa.patch \
+	file://0004-tpm-openssl-tpm-engine-change-variable-c-type-from-c.patch \
 "
 SRC_URI[md5sum] = "5bc8d66399e517dde25ff55ce4c6560f"
 SRC_URI[sha256sum] = "2df697e583053f7047a89daa4585e21fc67cf4397ee34ece94cf2d4b4f7ab49c"
