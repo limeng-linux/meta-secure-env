@@ -12,6 +12,7 @@ SRC_URI = "http://sourceforge.net/projects/trousers/files/OpenSSL%20TPM%20Engine
 	file://0002-libtpm-support-env-TPM_SRK_PW.patch \
 	file://0003-tpm-openssl-tpm-engine-parse-an-encrypted-tpm-SRK-pa.patch \
 	file://0004-tpm-openssl-tpm-engine-change-variable-c-type-from-c.patch \
+	file://0005-tpm-openssl-tpm-engine-parse-an-encrypted-TPM-key-pa.patch \
 "
 SRC_URI[md5sum] = "5bc8d66399e517dde25ff55ce4c6560f"
 SRC_URI[sha256sum] = "2df697e583053f7047a89daa4585e21fc67cf4397ee34ece94cf2d4b4f7ab49c"
@@ -59,14 +60,17 @@ INSANE_SKIP_${PN}-dbg = "libdir"
 #PW = "\x69\x6e\x63\x65\x6e\x64\x69\x61"
 #PW = "\x1""nc""\x3""nd""\x1""a"
 
-#The definitions below are used to decrypt the srk password.
-srk_dec_pw ?= "\\"\\\x1\\"\\"nc\\"\\"\\\x3\\"\\"nd\\"\\"\\\x1\\"\\"a\\""
-srk_dec_salt ?= "\\"r\\"\\"\\\x00\\\x00\\"\\"t\\""
-CFLAGS_append += "-DSRK_DEC_PW=${srk_dec_pw} -DSRK_DEC_SALT=${srk_dec_salt}"
+#The definitions below are used to decrypt the passwords of both srk and loaded key.
+dec_pw ?= "\\"\\\x1\\"\\"nc\\"\\"\\\x3\\"\\"nd\\"\\"\\\x1\\"\\"a\\""
+dec_salt ?= "\\"r\\"\\"\\\x00\\\x00\\"\\"t\\""
+CFLAGS_append += "-DDEC_PW=${dec_pw} -DDEC_SALT=${dec_salt}"
 #Due to the limit of escape, the hybrid must be written in above style.
 #The actual values defined above are:
-#srk_dec_pw[] = {0x01, 'n', 'c', 0x03, 'n', 'd', 0x01, 'a'};
-#srk_dec_salt[] = {'r', 0x00, 0x00, 't'};
+#dec_pw[] = {0x01, 'n', 'c', 0x03, 'n', 'd', 0x01, 'a'};
+#dec_salt[] = {'r', 0x00, 0x00, 't'};
 
 #Uncomment below one line if using the plain srk password for development
 #CFLAGS_append += "-DTPM_SRK_PLAIN_PW"
+
+#Uncomment below one line if using the plain tpm key password for development
+#CFLAGS_append += "-DTPM_KEY_PLAIN_PW"
